@@ -1,37 +1,31 @@
-#include <string>
-#include <map>
-#include <iostream>
+#include <Vector.h>
 
 using namespace std;
 
+const int INGREDIENT_CONTAINERS = 4;
+
 class Drink {
     private:
-        string _name;
-        map<int, float> _recipe;
+        String _name;
+        float _recipe[INGREDIENT_CONTAINERS];
     public:
         Drink() {};
-        Drink(string name, map<int, float> recipe) { // Constructor
+        Drink(String name, float recipe[INGREDIENT_CONTAINERS]) { // Constructor
             _name = name;
-            _recipe = recipe;
+            memcpy(_recipe, recipe, INGREDIENT_CONTAINERS*sizeof(float)); 
         };
-        string getName() {
+        String getName() {
             return _name;
         };
-        map<int, float> getRecipe() {
-            return _recipe;
-        };
-        void setName(string name) {
+        void setName(String name) {
             _name = name;
         };
         void addIngredientToRecipe(int ingredientIndex, float decimalAmount) {
-            _recipe.insert(pair<int, float>(ingredientIndex, decimalAmount));
+            _recipe[ingredientIndex] = decimalAmount;
         };
         void printRecipe() {
-            for (auto const& [key, val] : _recipe) {
-                cout << key        // string (key)
-                        << ':'  
-                        << val        // string's value
-                        << endl;
+            for (int i=0; i < INGREDIENT_CONTAINERS; i++) {
+                Serial.println(i + ": " + String(_recipe[i], 2));
             }
         };
 };
