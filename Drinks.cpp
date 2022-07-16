@@ -15,6 +15,10 @@ public:
     Drinks() {}
     Drink nextDrink()
     {
-        return drinks[drinkIndex++ % NUMBER_OF_DRINKS];
+        return drinks[++drinkIndex % NUMBER_OF_DRINKS];
+    }
+    Drink prevDrink()
+    {
+        return drinks[--drinkIndex % NUMBER_OF_DRINKS];
     }
 };

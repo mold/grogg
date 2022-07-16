@@ -4,47 +4,73 @@
 LiquidCrystal lcd(12, 11, 4, 5, 6, 7);
 
 // Constants
-const int buttonPin = 3;
+const int buttonPinNext = 3;
+const int buttonPinPrev = 2;
 Drinks drinks = Drinks();
 
 // Variables
-int buttonState = 0;
-int lastButtonState = 0;
-int buttonPushCounter = 0;
+int buttonStateNext = 0;
+int lastButtonStateNext = 0;
+int buttonStatePrev = 0;
+int lastButtonStatePrev = 0;
 
 // Setup
 void setup()
 {
   Serial.begin(9600);
   lcd.begin(16, 2);
-  pinMode(buttonPin, INPUT);
+  pinMode(buttonPinNext, INPUT);
+  pinMode(buttonPinPrev, INPUT);
   lcd.print("Press the button...");
 }
 // Main program
 void loop()
 {
 
-  // read the state of the switch into a local variable:
-  int buttonState = digitalRead(buttonPin);
+  checkButtonNext();
+  checkButtonPrev();
+}
 
-  if (buttonState != lastButtonState)
+void checkButtonNext()
+{
+  // read the state of the switch into a local variable:
+  int buttonStateNext = digitalRead(buttonPinNext);
+
+  if (buttonStateNext != lastButtonStateNext)
   {
-    if (buttonState == HIGH)
+    if (buttonStateNext == HIGH)
     {
-      buttonPushCounter++;
-      if (lastButtonState != buttonState)
+      if (lastButtonStateNext != buttonStateNext)
       {
         lcd.clear();
         lcd.print(drinks.nextDrink().getName());
       }
-      Serial.println("on");
     }
-    else
-    {
-      // if the current state is LOW then the button went from on to off:
-      Serial.println("off");
-    }
+
     delay(50);
   }
-  lastButtonState = buttonState;
+
+  lastButtonStateNext = buttonStateNext;
+}
+
+void checkButtonPrev()
+{
+  // read the state of the switch into a local variable:
+  int buttonStatePrev = digitalRead(buttonPinPrev);
+
+  if (buttonStatePrev != lastButtonStatePrev)
+  {
+    if (buttonStatePrev == HIGH)
+    {
+      if (lastButtonStatePrev != buttonStatePrev)
+      {
+        lcd.clear();
+        lcd.print(drinks.prevDrink().getName());
+      }
+    }
+
+    delay(50);
+  }
+
+  lastButtonStatePrev = buttonStatePrev;
 }
