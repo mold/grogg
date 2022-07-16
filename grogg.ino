@@ -1,18 +1,17 @@
 #include <LiquidCrystal.h>
+#include "Drinks.cpp"
+
 LiquidCrystal lcd(12, 11, 4, 5, 6, 7);
+
 // Constants
 const int buttonPin = 3;
-const int numberOfTextOptions = 2;
+Drinks drinks = Drinks();
+
 // Variables
-const char pmT1[] PROGMEM = "Hej Johan";
-const char pmT2[] PROGMEM = "Hej Daniel";
-const char *const pmTab[] PROGMEM = {pmT1, pmT2};
-bool inInitialState = true;
-// String displayTexts[numberOfTextOptions] = {"Hej Johan", "Hej Daniel"};
-int displayTextsIndex = 0;
 int buttonState = 0;
 int lastButtonState = 0;
 int buttonPushCounter = 0;
+
 // Setup
 void setup()
 {
@@ -32,19 +31,11 @@ void loop()
   {
     if (buttonState == HIGH)
     {
-      inInitialState = false;
-      // if the current state is HIGH then the button went from off to on:
       buttonPushCounter++;
-      displayTextsIndex++; // increment the index for the texts
-      // wrap around the texts if index is at the last element
-      if (displayTextsIndex == numberOfTextOptions)
-      {
-        displayTextsIndex = 0;
-      }
-      if (!inInitialState && lastButtonState != buttonState)
+      if (lastButtonState != buttonState)
       {
         lcd.clear();
-        lcd.print("looll");
+        lcd.print(drinks.nextDrink().getName());
       }
       Serial.println("on");
     }
