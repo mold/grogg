@@ -1,6 +1,6 @@
 #include "Drink.cpp"
 
-const int NUMBER_OF_DRINKS = 3;
+const int NUMBER_OF_DRINKS = 4;
 
 class Drinks
 {
@@ -8,7 +8,8 @@ private:
     const Drink drinks[NUMBER_OF_DRINKS] = {
         Drink("Grosshandlargrogg", new float[4]{0.2, 0.8, 0.0, 0.0}),
         Drink("Vargtass", new float[4]{0.0, 0.0, 0.3, 0.7}),
-        Drink("Johans balle", new float[4]{1, 1, 1, 1})};
+        Drink("Johans balle", new float[4]{1, 1, 1, 1}),
+        Drink("MonsterRadler", new float[4]{1, 1, 0, 0})};
     int drinkIndex = 0;
 
 public:
