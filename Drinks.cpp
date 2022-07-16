@@ -22,4 +22,7 @@ public:
     {
         return drinks[--drinkIndex % NUMBER_OF_DRINKS];
     }
+    Drink currDrink(){
+        return drinks[drinkIndex];
+    }
 };

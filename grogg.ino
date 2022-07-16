@@ -6,7 +6,10 @@ LiquidCrystal lcd(12, 11, 4, 5, 6, 7);
 // Constants
 const int buttonPinNext = 3;
 const int buttonPinPrev = 2;
-const int buttonPinPour = 4;
+const int buttonPinPour = 8;
+
+int pumpSpeedPWM = 255;
+const int pumpControlPin = 10;
 
 Drinks drinks = Drinks();
 
@@ -25,15 +28,21 @@ void setup()
 {
   Serial.begin(9600);
   lcd.begin(16, 2);
+
   pinMode(buttonPinNext, INPUT);
   pinMode(buttonPinPrev, INPUT);
+  pinMode(buttonPinPour, INPUT);
+
+  pinMode(pumpControlPin, OUTPUT);
+
   lcd.print("Press the button...");
 }
 // Main program
 void loop()
 {
-  checkButtonNext();
-  checkButtonPrev();
+
+  // checkButtonNext();
+  // checkButtonPrev();
   checkButtonPour();
 }
 
@@ -90,12 +99,17 @@ void checkButtonPour()
   {
     if (buttonStatePour == HIGH)
     {
-      if (lastButtonStatePour != buttonStatePour)
-      {
-        lcd.clear();
-        lcd.print("Enjoy!");
-        // TODO: Pour drink
-      }
+      lcd.clear();
+      lcd.print("Enjoy!");
+      analogWrite(pumpControlPin, pumpSpeedPWM);
+      // TODO: Pour drink
+    }
+    else
+    {
+      lcd.clear();
+      lcd.print(drinks.currDrink().getName());
+      analogWrite(pumpControlPin, 0);
+      // TODO: stop pour
     }
 
     delay(50);
