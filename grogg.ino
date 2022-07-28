@@ -24,6 +24,9 @@ int lastButtonStatePrev = 0;
 int buttonStatePour = 0;
 int lastButtonStatePour = 0;
 
+// Pump pump1 = new Pump(10, 255);
+// Pump pump2 = new Pump(9, 255);
+
 // Setup
 void setup()
 {
@@ -44,7 +47,8 @@ void loop()
 {
   checkButtonNext();
   checkButtonPrev();
-  checkButtonPour();
+  int currentMillis = millis();
+  checkButtonPour(currentMillis);
 }
 
 void checkButtonNext()
@@ -91,28 +95,40 @@ void checkButtonPrev()
   lastButtonStatePrev = buttonStatePrev;
 }
 
-void checkButtonPour()
+void checkButtonPour(int currentMillis)
 {
   // read the state of the switch into a local variable:
   int buttonStatePour = digitalRead(buttonPinPour);
 
-  if (buttonStatePour != lastButtonStatePour)
+  if (buttonStatePour != lastButtonStatePour && buttonStatePour != HIGH)
   {
-    if (buttonStatePour == HIGH)
+    // Button release
+    lcd.clear();
+    lcd.print(drinks.currDrink().getName());
+    analogWrite(pumpControlPin1, 0);
+    analogWrite(pumpControlPin2, 0);
+  }
+
+  if (buttonStatePour != lastButtonStatePour && buttonStatePour == HIGH)
+  {
+    // First button press read
+    lcd.clear();
+    lcd.print("Enjoy!");
+    Serial.println("POUR");
+  }
+
+  if (buttonStatePour == HIGH)
+  {
+    if (((int)(currentMillis / 1000)) % 2 == 0)
     {
-      lcd.clear();
-      lcd.print("Enjoy!");
       analogWrite(pumpControlPin1, pumpSpeedPWM);
-      analogWrite(pumpControlPin2, pumpSpeedPWM);
-      // TODO: Pour drink
+      analogWrite(pumpControlPin2, 0);
     }
     else
     {
-      lcd.clear();
-      lcd.print(drinks.currDrink().getName());
+      analogWrite(pumpControlPin2, pumpSpeedPWM);
       analogWrite(pumpControlPin1, 0);
-      analogWrite(pumpControlPin2, 0);
-      // TODO: stop pour
+
     }
 
     delay(50);
