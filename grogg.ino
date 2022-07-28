@@ -1,16 +1,64 @@
 #include <LiquidCrystal.h>
 #include "Drinks.cpp"
 
-LiquidCrystal lcd(12, 11, 4, 5, 6, 7);
+
+class Pump {
+  private:
+    unsigned long startMillis;
+    float _ratio;
+    int timePeriodMillis = 2000;
+    int _pin;
+    int _speedPWM;
+
+    shouldPump() {
+      unsigned long timeSinceStart = millis() - startMillis;
+      int timeElapsedInPeriod = timeSinceStart % timePeriodMillis;
+      float percentElapsedOfPeriod = (float)timeElapsedInPeriod / (float)timePeriodMillis;
+
+      // Serial.println("Should pump? timeSinceStart: " + String(timeSinceStart) + " timeElapsedInPeriod: " + String(timeElapsedInPeriod) + " percentElapsedOfPeriod: " + String(percentElapsedOfPeriod) + " ratio: " + String(_ratio));
+
+      return percentElapsedOfPeriod <= _ratio;
+
+    }
+  public:
+    Pump() {}
+    Pump(int pin, float speedPWM) {
+      _pin = pin;
+      _speedPWM = speedPWM;
+
+      pinMode(pin, OUTPUT);
+    }
+
+    start(float ratio) {
+      startMillis = millis();
+      _ratio = ratio;
+
+      Serial.println("Start ratio: " + String(ratio, 2));
+    }
+
+    pump() {
+      if (shouldPump()) {
+        analogWrite(_pin, _speedPWM);
+       // Serial.println("Should pump");
+      } else {
+        analogWrite(_pin, 0);
+       // Serial.println("Shout NOT pump");
+      }
+    }
+
+    stop() {
+      analogWrite(_pin, 0);
+    }
+};
+
+LiquidCrystal lcd(13, 12, 4, 5, 6, 7);
 
 // Constants
 const int buttonPinNext = A1;
 const int buttonPinPrev = A2;
 const int buttonPinPour = A0;
 
-int pumpSpeedPWM = 255;
-const int pumpControlPin1 = 10;
-const int pumpControlPin2 = 9;
+int pumpSpeedPWM = 150;
 
 Drinks drinks = Drinks();
 
@@ -24,8 +72,10 @@ int lastButtonStatePrev = 0;
 int buttonStatePour = 0;
 int lastButtonStatePour = 0;
 
-// Pump pump1 = new Pump(10, 255);
-// Pump pump2 = new Pump(9, 255);
+Pump pump1 = Pump(10, pumpSpeedPWM);
+Pump pump2 = Pump(9, pumpSpeedPWM);
+Pump pump3 = Pump(3, pumpSpeedPWM);
+Pump pump4 = Pump(11, pumpSpeedPWM);
 
 // Setup
 void setup()
@@ -37,9 +87,6 @@ void setup()
   pinMode(buttonPinPrev, INPUT);
   pinMode(buttonPinPour, INPUT);
 
-  pinMode(pumpControlPin1, OUTPUT);
-  pinMode(pumpControlPin2, OUTPUT);
-
   lcd.print("Press the button...");
 }
 // Main program
@@ -47,8 +94,8 @@ void loop()
 {
   checkButtonNext();
   checkButtonPrev();
-  int currentMillis = millis();
-  checkButtonPour(currentMillis);
+  checkButtonPour();
+  delay(50);
 }
 
 void checkButtonNext()
@@ -66,8 +113,6 @@ void checkButtonNext()
         lcd.print(drinks.nextDrink().getName());
       }
     }
-
-    delay(50);
   }
 
   lastButtonStateNext = buttonStateNext;
@@ -88,14 +133,12 @@ void checkButtonPrev()
         lcd.print(drinks.prevDrink().getName());
       }
     }
-
-    delay(50);
   }
 
   lastButtonStatePrev = buttonStatePrev;
 }
 
-void checkButtonPour(int currentMillis)
+void checkButtonPour()
 {
   // read the state of the switch into a local variable:
   int buttonStatePour = digitalRead(buttonPinPour);
@@ -105,8 +148,10 @@ void checkButtonPour(int currentMillis)
     // Button release
     lcd.clear();
     lcd.print(drinks.currDrink().getName());
-    analogWrite(pumpControlPin1, 0);
-    analogWrite(pumpControlPin2, 0);
+    pump1.stop();
+    pump2.stop();
+    pump3.stop();
+    pump4.stop();
   }
 
   if (buttonStatePour != lastButtonStatePour && buttonStatePour == HIGH)
@@ -114,24 +159,19 @@ void checkButtonPour(int currentMillis)
     // First button press read
     lcd.clear();
     lcd.print("Enjoy!");
+    //pump1.start(1);
+    //pump2.start(1);
+    pump3.start(1);
+    pump4.start(1);
     Serial.println("POUR");
   }
 
   if (buttonStatePour == HIGH)
   {
-    if (((int)(currentMillis / 1000)) % 2 == 0)
-    {
-      analogWrite(pumpControlPin1, pumpSpeedPWM);
-      analogWrite(pumpControlPin2, 0);
-    }
-    else
-    {
-      analogWrite(pumpControlPin2, pumpSpeedPWM);
-      analogWrite(pumpControlPin1, 0);
-
-    }
-
-    delay(50);
+    pump1.pump();
+    pump2.pump();
+    pump3.pump();
+    pump4.pump();
   }
 
   lastButtonStatePour = buttonStatePour;
