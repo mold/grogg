@@ -9,7 +9,8 @@ const int buttonPinPrev = A2;
 const int buttonPinPour = A0;
 
 int pumpSpeedPWM = 255;
-const int pumpControlPin = 10;
+const int pumpControlPin1 = 10;
+const int pumpControlPin2 = 9;
 
 Drinks drinks = Drinks();
 
@@ -33,7 +34,8 @@ void setup()
   pinMode(buttonPinPrev, INPUT);
   pinMode(buttonPinPour, INPUT);
 
-  pinMode(pumpControlPin, OUTPUT);
+  pinMode(pumpControlPin1, OUTPUT);
+  pinMode(pumpControlPin2, OUTPUT);
 
   lcd.print("Press the button...");
 }
@@ -100,14 +102,16 @@ void checkButtonPour()
     {
       lcd.clear();
       lcd.print("Enjoy!");
-      analogWrite(pumpControlPin, pumpSpeedPWM);
+      analogWrite(pumpControlPin1, pumpSpeedPWM);
+      analogWrite(pumpControlPin2, pumpSpeedPWM);
       // TODO: Pour drink
     }
     else
     {
       lcd.clear();
       lcd.print(drinks.currDrink().getName());
-      analogWrite(pumpControlPin, 0);
+      analogWrite(pumpControlPin1, 0);
+      analogWrite(pumpControlPin2, 0);
       // TODO: stop pour
     }
 
