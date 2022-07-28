@@ -4,9 +4,9 @@
 LiquidCrystal lcd(12, 11, 4, 5, 6, 7);
 
 // Constants
-const int buttonPinNext = 3;
-const int buttonPinPrev = 2;
-const int buttonPinPour = 8;
+const int buttonPinNext = A1;
+const int buttonPinPrev = A2;
+const int buttonPinPour = A0;
 
 int pumpSpeedPWM = 255;
 const int pumpControlPin = 10;
@@ -40,9 +40,8 @@ void setup()
 // Main program
 void loop()
 {
-
-  // checkButtonNext();
-  // checkButtonPrev();
+  checkButtonNext();
+  checkButtonPrev();
   checkButtonPour();
 }
 
