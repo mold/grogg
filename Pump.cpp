@@ -9,7 +9,7 @@ private:
     int _pin;
     int _speedPWM;
 
-    shouldPump()
+    bool shouldPump()
     {
         unsigned long timeSinceStart = millis() - startMillis;
         int timeElapsedInPeriod = timeSinceStart % timePeriodMillis;
@@ -30,7 +30,7 @@ public:
         pinMode(pin, OUTPUT);
     }
 
-    start(float ratio)
+    void start(float ratio)
     {
         startMillis = millis();
         _ratio = ratio;
@@ -38,7 +38,7 @@ public:
         Serial.println("Start ratio: " + String(ratio, 2));
     }
 
-    pump()
+    void pump()
     {
         if (shouldPump())
         {
@@ -52,7 +52,7 @@ public:
         }
     }
 
-    stop()
+    void stop()
     {
         analogWrite(_pin, 0);
     }
