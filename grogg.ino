@@ -2,12 +2,12 @@
 #include "Drinks.cpp"
 #include "Pump.cpp"
 
-LiquidCrystal lcd(13, 12, 4, 5, 6, 7);
+LiquidCrystal lcd(12, 3, 2, 4, 7, 8);
 
 // Constants
-const int buttonPinNext = A1;
-const int buttonPinPrev = A2;
-const int buttonPinPour = A0;
+const int buttonPinNext = A4;
+const int buttonPinPrev = A5;
+const int buttonPinPour = A3;
 
 int pumpSpeedPWM = 150;
 
@@ -24,9 +24,9 @@ int buttonStatePour = 0;
 int lastButtonStatePour = 0;
 
 Pump pump1 = Pump(10, pumpSpeedPWM);
-Pump pump2 = Pump(9, pumpSpeedPWM);
-Pump pump3 = Pump(3, pumpSpeedPWM);
-Pump pump4 = Pump(11, pumpSpeedPWM);
+Pump pump2 = Pump(10, pumpSpeedPWM);
+Pump pump3 = Pump(10, pumpSpeedPWM);
+Pump pump4 = Pump(10, pumpSpeedPWM);
 
 // Setup
 void setup()
