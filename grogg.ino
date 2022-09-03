@@ -23,9 +23,9 @@ int lastButtonStatePrev = 0;
 int buttonStatePour = 0;
 int lastButtonStatePour = 0;
 
-Pump pump1 = Pump(10, pumpSpeedPWM);
-Pump pump2 = Pump(10, pumpSpeedPWM);
-Pump pump3 = Pump(10, pumpSpeedPWM);
+Pump pump1 = Pump(5, pumpSpeedPWM);
+Pump pump2 = Pump(6, pumpSpeedPWM);
+Pump pump3 = Pump(9, pumpSpeedPWM);
 Pump pump4 = Pump(10, pumpSpeedPWM);
 
 // Setup
@@ -110,10 +110,11 @@ void checkButtonPour()
     // First button press read
     lcd.clear();
     lcd.print("Enjoy!");
-    //pump1.start(1);
-    //pump2.start(1);
-    pump3.start(1);
-    pump4.start(1);
+    Drink currDrink = drinks.currDrink();
+    pump1.start(currDrink.getPumpRatio(0));
+    pump2.start(currDrink.getPumpRatio(1));
+    pump3.start(currDrink.getPumpRatio(2));
+    pump4.start(currDrink.getPumpRatio(3));
     Serial.println("POUR");
   }
 

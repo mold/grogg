@@ -28,4 +28,7 @@ class Drink {
                 Serial.println(i + ": " + String(_recipe[i], 2));
             }
         };
+        float getPumpRatio(int ingredientIndex) {
+            return _recipe[ingredientIndex];
+        }
 };
