@@ -115,7 +115,7 @@ void checkButtonPour()
     pump2.start(currDrink.getPumpRatio(1));
     pump3.start(currDrink.getPumpRatio(2));
     pump4.start(currDrink.getPumpRatio(3));
-    Serial.println("POUR");
+    Serial.println("POUR DRINK " + currDrink.getName());
   }
 
   if (buttonStatePour == HIGH)

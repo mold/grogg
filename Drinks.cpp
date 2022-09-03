@@ -14,17 +14,27 @@ private:
         Drink("B", new float[4]{0, 1, 0, 0}), 
         Drink("C", new float[4]{0, 0, 1, 0}), 
         Drink("D", new float[4]{0, 0, 0, 1})}; 
+        
     int drinkIndex = 0;
+
+    void stepDrinkIndex(int steps) {
+       drinkIndex = (((drinkIndex + steps) % NUMBER_OF_DRINKS) + NUMBER_OF_DRINKS) % NUMBER_OF_DRINKS;
+    }
+    
 
 public:
     Drinks() {}
     Drink nextDrink()
     {
-        return drinks[++drinkIndex % NUMBER_OF_DRINKS];
+        stepDrinkIndex(1);
+        Serial.println("Next drink: " + String(drinkIndex));
+        return drinks[drinkIndex];
     }
     Drink prevDrink()
     {
-        return drinks[--drinkIndex % NUMBER_OF_DRINKS];
+        stepDrinkIndex(-1);
+        Serial.println("Prev drink: " + String(drinkIndex));
+        return drinks[drinkIndex];
     }
     Drink currDrink(){
         return drinks[drinkIndex];
