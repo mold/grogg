@@ -9,7 +9,7 @@ const int buttonPinNext = A4;
 const int buttonPinPrev = A5;
 const int buttonPinPour = A3;
 
-int pumpSpeedPWM = 150;
+int pumpSpeedPWM = 255;
 
 Drinks drinks = Drinks();
 
@@ -23,10 +23,13 @@ int lastButtonStatePrev = 0;
 int buttonStatePour = 0;
 int lastButtonStatePour = 0;
 
-Pump pump1 = Pump(5, pumpSpeedPWM);
-Pump pump2 = Pump(6, pumpSpeedPWM);
-Pump pump3 = Pump(9, pumpSpeedPWM);
-Pump pump4 = Pump(10, pumpSpeedPWM);
+long pumpStartMillis;
+long maxPumpDuration = 4000;
+
+Pump pump1 = Pump(5, pumpSpeedPWM, 0.8);
+Pump pump2 = Pump(6, pumpSpeedPWM, 0.8);
+Pump pump3 = Pump(9, pumpSpeedPWM, 0.9);
+Pump pump4 = Pump(10, pumpSpeedPWM, 1);
 
 // Setup
 void setup()

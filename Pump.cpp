@@ -8,6 +8,7 @@ private:
     int timePeriodMillis = 2000;
     int _pin;
     int _speedPWM;
+    float _compensationRatio = 1;
 
     bool shouldPump()
     {
@@ -22,10 +23,11 @@ private:
 
 public:
     Pump() {}
-    Pump(int pin, float speedPWM)
+    Pump(int pin, float speedPWM, float compensationRatio)
     {
         _pin = pin;
         _speedPWM = speedPWM;
+        _compensationRatio = compensationRatio;
 
         pinMode(pin, OUTPUT);
     }
@@ -42,7 +44,7 @@ public:
     {
         if (shouldPump())
         {
-            analogWrite(_pin, _speedPWM);
+            analogWrite(_pin, _speedPWM * _ratio * _compensationRatio);
             // Serial.println("Should pump");
         }
         else
