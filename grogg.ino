@@ -97,7 +97,7 @@ void checkButtonPour()
   // read the state of the switch into a local variable:
   int buttonStatePour = digitalRead(buttonPinPour);
 
-  if (buttonStatePour != lastButtonStatePour && buttonStatePour != HIGH)
+  if ((buttonStatePour != lastButtonStatePour && buttonStatePour != HIGH) || (millis() - pumpStartMillis) >= maxPumpDuration)
   {
     // Button release
     lcd.clear();
@@ -119,9 +119,11 @@ void checkButtonPour()
     pump3.start(currDrink.getPumpRatio(2));
     pump4.start(currDrink.getPumpRatio(3));
     Serial.println("POUR DRINK " + currDrink.getName());
+
+    pumpStartMillis = millis();
   }
 
-  if (buttonStatePour == HIGH)
+  if (buttonStatePour == HIGH && !((millis() - pumpStartMillis) >= maxPumpDuration))
   {
     pump1.pump();
     pump2.pump();
