@@ -5,7 +5,7 @@ class Pump
 private:
     unsigned long startMillis;
     float _ratio;
-    int timePeriodMillis = 2000;
+    int timePeriodMillis = 1000;
     int _pin;
     int _speedPWM;
     float _compensationRatio = 1;
@@ -15,9 +15,7 @@ private:
         unsigned long timeSinceStart = millis() - startMillis;
         int timeElapsedInPeriod = timeSinceStart % timePeriodMillis;
         float percentElapsedOfPeriod = (float)timeElapsedInPeriod / (float)timePeriodMillis;
-
-        // Serial.println("Should pump? timeSinceStart: " + String(timeSinceStart) + " timeElapsedInPeriod: " + String(timeElapsedInPeriod) + " percentElapsedOfPeriod: " + String(percentElapsedOfPeriod) + " ratio: " + String(_ratio));
-
+        
         return percentElapsedOfPeriod <= _ratio;
     }
 
@@ -44,7 +42,7 @@ public:
     {
         if (shouldPump())
         {
-            analogWrite(_pin, _speedPWM * _ratio * _compensationRatio);
+            analogWrite(_pin, _speedPWM * _compensationRatio);
             // Serial.println("Should pump");
         }
         else

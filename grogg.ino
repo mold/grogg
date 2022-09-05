@@ -24,7 +24,7 @@ int buttonStatePour = 0;
 int lastButtonStatePour = 0;
 
 long pumpStartMillis;
-long maxPumpDuration = 4000;
+long maxPumpDuration = 60000;
 
 Pump pump1 = Pump(5, pumpSpeedPWM, 0.8);
 Pump pump2 = Pump(6, pumpSpeedPWM, 0.8);

@@ -10,10 +10,11 @@ private:
         // Drink("Vargtass", new float[4]{0.0, 0.0, 0.3, 0.7}),
         // Drink("Johans balle", new float[4]{1, 1, 1, 1}),
         // Drink("MonsterRadler", new float[4]{1, 1, 0, 0})};
-        Drink("A", new float[4]{1, 0, 0, 0}), 
-        Drink("B", new float[4]{0, 1, 0, 0}), 
-        Drink("C", new float[4]{0, 0, 1, 0}), 
-        Drink("D", new float[4]{0, 0, 0, 1})}; 
+        
+        Drink("Sour New Yorker", new float[4]{1, 0, 1, 0}),
+        Drink("Big Apple", new float[4]{1, 1, 0, 0}),
+        Drink("Super Trouper", new float[4]{1, 1, 1, 0}),
+        Drink("Cleaning procedure (DO NOT RUN!!!!)", new float[4]{1, 1, 1, 1})};
         
     int drinkIndex = 0;
 
