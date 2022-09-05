@@ -49,7 +49,7 @@ void loop()
   checkButtonNext();
   checkButtonPrev();
   checkButtonPour();
-  delay(50);
+  delay(250);
 }
 
 void checkButtonNext()
@@ -63,8 +63,7 @@ void checkButtonNext()
     {
       if (lastButtonStateNext != buttonStateNext)
       {
-        lcd.clear();
-        lcd.print(drinks.nextDrink().getName());
+        displayOnLCD(drinks.nextDrink().getName());
       }
     }
   }
@@ -83,8 +82,7 @@ void checkButtonPrev()
     {
       if (lastButtonStatePrev != buttonStatePrev)
       {
-        lcd.clear();
-        lcd.print(drinks.prevDrink().getName());
+        displayOnLCD(drinks.prevDrink().getName());
       }
     }
   }
@@ -100,8 +98,7 @@ void checkButtonPour()
   if ((buttonStatePour != lastButtonStatePour && buttonStatePour != HIGH) || (millis() - pumpStartMillis) >= maxPumpDuration)
   {
     // Button release
-    lcd.clear();
-    lcd.print(drinks.currDrink().getName());
+    displayOnLCD(drinks.currDrink().getName());
     pump1.stop();
     pump2.stop();
     pump3.stop();
@@ -111,8 +108,7 @@ void checkButtonPour()
   if (buttonStatePour != lastButtonStatePour && buttonStatePour == HIGH)
   {
     // First button press read
-    lcd.clear();
-    lcd.print("Enjoy!");
+    displayOnLCD("Enjoy!");
     Drink currDrink = drinks.currDrink();
     pump1.start(currDrink.getPumpRatio(0));
     pump2.start(currDrink.getPumpRatio(1));
@@ -132,4 +128,9 @@ void checkButtonPour()
   }
 
   lastButtonStatePour = buttonStatePour;
+}
+
+void displayOnLCD(String text){
+  lcd.print("                ");
+  lcd.print(text);
 }
