@@ -49,7 +49,7 @@ void loop()
   checkButtonNext();
   checkButtonPrev();
   checkButtonPour();
-  delay(250);
+  delay(50);
 }
 
 void checkButtonNext()
@@ -131,6 +131,7 @@ void checkButtonPour()
 }
 
 void displayOnLCD(String text){
-  lcd.print("                ");
+  //lcd.print("                ");
+  lcd.clear();
   lcd.print(text);
 }

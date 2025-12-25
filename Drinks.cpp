@@ -1,6 +1,6 @@
 #include "Drink.cpp"
 
-const int NUMBER_OF_DRINKS = 4;
+const int NUMBER_OF_DRINKS = 10;
 
 class Drinks
 {
@@ -10,11 +10,23 @@ private:
         // Drink("Vargtass", new float[4]{0.0, 0.0, 0.3, 0.7}),
         // Drink("Johans balle", new float[4]{1, 1, 1, 1}),
         // Drink("MonsterRadler", new float[4]{1, 1, 0, 0})};
+
+        // 1: Champagne
+        // 2: OJ
+        // 3: Gin
+        // 4: Sockerdricka
         
-        Drink("Sour New Yorker", new float[4]{1, 0, 1, 0}),
-        Drink("Big Apple", new float[4]{1, 1, 0, 0}),
-        Drink("Super Trouper", new float[4]{1, 1, 1, 0}),
-        Drink("Cleaning procedure (DO NOT RUN!!!!)", new float[4]{1, 1, 1, 1})};
+        Drink("Mimosa", new float[4]{1, 1, 0, 0}),
+        Drink("Fortified Mimosa", new float[4]{1, 1, 0.4, 0}),
+        Drink("Fizzy Mimose", new float[4]{1, 0, 0, 1}),
+        Drink("Spark-Gin Orange", new float[4]{1, 0.7, 0.4, 1}),
+        Drink("Gin", new float[4]{0,0,1,0}),
+        Drink("Cava", new float[4]{1,0,0,0}),
+                Drink("Juice", new float[4]{0,1,0,0}),
+                Drink("Läsk", new float[4]{0,0,0,1}),
+
+        Drink("Fresh Gin Fizz", new float[4]{0, 0, 0.3, 1}),
+        Drink("Cleany DONT RUN!!!", new float[4]{1, 1, 1, 1})};
         
     int drinkIndex = 0;
 
