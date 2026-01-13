@@ -1,6 +1,6 @@
 #include "Drink.cpp"
 
-const int NUMBER_OF_DRINKS = 10;
+const int NUMBER_OF_DRINKS = 4;
 
 class Drinks
 {

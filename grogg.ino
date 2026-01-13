@@ -131,7 +131,7 @@ void checkButtonPour()
 }
 
 void displayOnLCD(String text){
-  //lcd.print("                ");
+  // lcd.print("                ");
   lcd.clear();
   lcd.print(text);
 }
